@@ -78,6 +78,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Update Profile", "UpdateProfile", new { id = Model.id }) |
+    @Html.ActionLink("Change Pickup Day", "ChangePickUpDate", new { id = Model.id })
+    @Html.ActionLink("Choose One Time Pickup Day", "AddOneDayPickUp", new { id = Model.id })
+    @Html.ActionLink("Suspend Pickup", "SuspendPickup", new { id = Model.id })
 </p>

@@ -243,6 +243,8 @@
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\SuspendPickup.cshtml" />
     <Content Include="Views\Customer\AddOneDayPickUP.cshtml" />
+    <Content Include="Views\Customer\UpdateProfile.cshtml" />
+    <Content Include="Views\Customer\ChangePickUpDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
