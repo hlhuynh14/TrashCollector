@@ -175,9 +175,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906061801090_addtables.cs" />
-    <Compile Include="Migrations\201906061801090_addtables.Designer.cs">
-      <DependentUpon>201906061801090_addtables.cs</DependentUpon>
+    <Compile Include="Migrations\201906061908278_addtable.cs" />
+    <Compile Include="Migrations\201906061908278_addtable.Designer.cs">
+      <DependentUpon>201906061908278_addtable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -250,10 +250,11 @@
     <Content Include="Views\Customer\AddOneDayPickUP.cshtml" />
     <Content Include="Views\Customer\UpdateProfile.cshtml" />
     <Content Include="Views\Customer\ChangePickUpDate.cshtml" />
+    <Content Include="Views\Employee\Create.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -269,8 +270,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906061801090_addtables.resx">
-      <DependentUpon>201906061801090_addtables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906061908278_addtable.resx">
+      <DependentUpon>201906061908278_addtable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

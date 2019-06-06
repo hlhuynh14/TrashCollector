@@ -17,8 +17,9 @@ namespace TrashCollector.Controllers
         }
         // GET: Customer
         public ActionResult Index()
-        {
-            return View();
+        {   string userId = User.Identity.GetUserId();
+            Customer customer = context.Customers.Where(c => c.ApplicationId == userId).SingleOrDefault();
+            return View(customer);
         }
 
         // GET: Customer/Details/5
@@ -48,7 +49,7 @@ namespace TrashCollector.Controllers
                 customer.ApplicationId = customerFK;
                 context.Customers.Add(customer);
                 context.SaveChanges();
-                return RedirectToAction("Details");
+                return RedirectToAction("Index");
             }
             catch
             {

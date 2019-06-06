@@ -16,7 +16,7 @@ namespace TrashCollector.Models
         public string email { get; set; }
         public string address { get; set; }
         public int zipcode { get; set; }
-        public double? balance;
+        public double? balance { get; set; }
         public string pickUpDay { get; set; }
         public DateTime? oneTimePickUp { get; set; }
         public DateTime? suspendedStart { get; set; }
