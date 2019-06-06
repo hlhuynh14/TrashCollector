@@ -118,5 +118,78 @@ namespace TrashCollector.Controllers
                 return View();
             }
         }
+        public ActionResult ChangePickUpDate(int id)
+        {
+            Customer customer = context.Customers.Where(c => c.id == id).Single();
+            return View(customer);
+        }
+
+        // POST: Customer/Edit/5
+        [HttpPost]
+        public ActionResult ChangePickUpDate(int id, Customer oldCustomer)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                Customer customer = context.Customers.Where(c => c.id == id).Single();
+                customer.pickUpDay = oldCustomer.pickUpDay;
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public ActionResult AddOneDayPickUp(int id)
+        {
+            Customer customer = context.Customers.Where(c => c.id == id).Single();
+            return View(customer);
+        }
+
+        // POST: Customer/Edit/5
+        [HttpPost]
+        public ActionResult AddOneDayPickUp(int id, Customer oldCustomer)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                Customer customer = context.Customers.Where(c => c.id == id).Single();
+                customer.oneTimePickUp = oldCustomer.oneTimePickUp;
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public ActionResult UpdateProfile(int id)
+        {
+            Customer customer = context.Customers.Where(c => c.id == id).Single();
+            return View(customer);
+        }
+
+        // POST: Customer/Edit/5
+        [HttpPost]
+        public ActionResult UpdateProfile(int id, Customer oldCustomer)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                Customer customer = context.Customers.Where(c => c.id == id).Single();
+                customer.firstName = oldCustomer.firstName;
+                customer.lastName = oldCustomer.lastName;
+                customer.address = oldCustomer.address;
+                customer.zipcode = oldCustomer.zipcode;
+                customer.email = oldCustomer.email;
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }
