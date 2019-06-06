@@ -103,5 +103,3 @@ C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\ob
 C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.csproj.CopyComplete
 C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.dll
 C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.pdb
-C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.Migrations.message.resources
-C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.csproj.GenerateResource.cache
