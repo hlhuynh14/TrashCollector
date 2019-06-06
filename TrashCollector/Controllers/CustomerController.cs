@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -38,17 +39,22 @@ namespace TrashCollector.Controllers
         [HttpPost]
         public ActionResult Create(Customer customer)
         {
+
             try
             {
                 // TODO: Add insert logic here
+                // assign FK
+                string customerFK = User.Identity.GetUserId();
+                customer.ApplicationId = customerFK;
                 context.Customers.Add(customer);
                 context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
             catch
             {
                 return View();
             }
+
         }
 
         // GET: Customer/Edit/5
@@ -190,6 +196,10 @@ namespace TrashCollector.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult Cancel()
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }

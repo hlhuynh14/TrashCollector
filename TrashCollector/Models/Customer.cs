@@ -16,11 +16,11 @@ namespace TrashCollector.Models
         public string email { get; set; }
         public string address { get; set; }
         public int zipcode { get; set; }
-        public double balance { get; set; }
+        public double? balance;
         public string pickUpDay { get; set; }
-        public DateTime oneTimePickUp { get; set; }
-        public DateTime suspendedStart { get; set; }
-        public DateTime supspendEnd { get; set; }
+        public DateTime? oneTimePickUp { get; set; }
+        public DateTime? suspendedStart { get; set; }
+        public DateTime? supspendEnd { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
