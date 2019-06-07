@@ -16,23 +16,48 @@ namespace TrashCollector.Controllers
             context = new ApplicationDbContext();
         }
         // GET: Employee
-        public ActionResult Index()
-        {
-            string userId = User.Identity.GetUserId();
-            Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
-            int dayEnum = (int)System.DateTime.Now.DayOfWeek;
-            string dayString = GetDay(dayEnum);
-            var customerList = context.Customers.Where(c => c.pickUpDay == dayString && c.zipcode == employee.zipcode).ToList();
-            var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
-            foreach( Customer customer in oneTimeList)
+        public ActionResult Index(string dayOfWeek)
+        { 
+            if (dayOfWeek == null)
             {
-                if(customer.oneTimePickUp == DateTime.Today)
+                string userId = User.Identity.GetUserId();
+                Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
+                int dayEnum = (int)System.DateTime.Now.DayOfWeek;
+                string dayString = GetDay(dayEnum);
+                var customerList = context.Customers.Where(c => c.pickUpDay == dayString && c.zipcode == employee.zipcode).ToList();
+                var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
+                foreach (Customer customer in oneTimeList)
                 {
-                    customerList.Add(customer);
+                    if (customer.oneTimePickUp == DateTime.Today)
+                    {
+                        customerList.Add(customer);
+                    }
                 }
-            }
 
-            return View(customerList);
+                return View(customerList);
+            }
+            else
+            {
+                string userId = User.Identity.GetUserId();
+                Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
+                var customerList = context.Customers.Where(c => c.pickUpDay == dayOfWeek && c.zipcode == employee.zipcode).ToList();
+                var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
+                
+                foreach (Customer customer in oneTimeList)
+                {
+                    if (DatesAreInTheSameWeek(customer.oneTimePickUp.Value))
+                    {
+                        int day = (int)customer.oneTimePickUp.Value.DayOfWeek;
+                        string weekday = GetDay(day);
+                        if (weekday == customer.pickUpDay)
+                        {
+                            customerList.Add(customer);
+                        }
+                    }
+                }
+
+                return View();
+            }
         }
 
         // GET: Employee/Details/5
@@ -137,9 +162,9 @@ namespace TrashCollector.Controllers
                     dayinstring = "Saturday";
                     return dayinstring;
                 default:
-                    return dayinstring;         
+                    return dayinstring;
             }
-                
+
         }
         public ActionResult AddPayment(int id)
         {
@@ -154,7 +179,7 @@ namespace TrashCollector.Controllers
             return RedirectToAction("Index");
         }
         public bool DatesAreInTheSameWeek(DateTime date1)
-        {   var currentdate = DateTime.Today;
+        { var currentdate = DateTime.Today;
             var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
             var date2 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
             var date4 = currentdate.Date.AddDays(-1 * (int)cal.GetDayOfWeek(currentdate));
