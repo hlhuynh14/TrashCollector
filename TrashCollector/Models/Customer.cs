@@ -21,6 +21,7 @@ namespace TrashCollector.Models
         public DateTime? oneTimePickUp { get; set; }
         public DateTime? suspendedStart { get; set; }
         public DateTime? supspendEnd { get; set; }
+        public string whoPickedItUp { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

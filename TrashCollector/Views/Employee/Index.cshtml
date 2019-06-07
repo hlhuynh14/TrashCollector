@@ -72,8 +72,7 @@
             @Html.DisplayFor(modelItem => item.supspendEnd)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Confirm PickUp", "AddPayment", new { id = item.id })           
         </td>
     </tr>
 }

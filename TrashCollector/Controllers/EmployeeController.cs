@@ -133,5 +133,12 @@ namespace TrashCollector.Controllers
             }
                 
         }
+        public ActionResult AddPayment(int id)
+        { double payment = 25;
+            Customer customer = context.Customers.Where(c => c.id == id).SingleOrDefault();
+            customer.balance += payment;
+            context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
