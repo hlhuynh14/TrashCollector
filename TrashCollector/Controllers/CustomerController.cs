@@ -161,14 +161,14 @@ namespace TrashCollector.Controllers
             try
             {
                 // TODO: Add update logic here
-                if (oldCustomer.oneTimePickUp != null)
-                {
+
                     Customer customer = context.Customers.Where(c => c.id == id).Single();
                     customer.oneTimePickUp = oldCustomer.oneTimePickUp;
+                    customer.oneTimePickUpBool = true;
                     context.SaveChanges();
                     return RedirectToAction("Index");
-                }
-                return RedirectToAction("Index");
+                
+               
             }
             catch
             {

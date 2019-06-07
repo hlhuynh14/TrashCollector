@@ -22,8 +22,15 @@ namespace TrashCollector.Controllers
             Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
             int dayEnum = (int)System.DateTime.Now.DayOfWeek;
             string dayString = GetDay(dayEnum);
-            
             var customerList = context.Customers.Where(c => c.pickUpDay == dayString && c.zipcode == employee.zipcode).ToList();
+            var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
+            foreach( Customer customer in oneTimeList)
+            {
+                if(customer.oneTimePickUp == DateTime.Today)
+                {
+                    customerList.Add(customer);
+                }
+            }
 
             return View(customerList);
         }
@@ -142,8 +149,17 @@ namespace TrashCollector.Controllers
             Customer customer = context.Customers.Where(c => c.id == id).SingleOrDefault();
             customer.balance += payment;
             customer.whoPickedItUp = employee.firstName;
+            customer.oneTimePickUpBool = false;
             context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public bool DatesAreInTheSameWeek(DateTime date1)
+        {   var currentdate = DateTime.Today;
+            var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
+            var date2 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
+            var date4 = currentdate.Date.AddDays(-1 * (int)cal.GetDayOfWeek(currentdate));
+
+            return date2 == date4;
         }
     }
 }
