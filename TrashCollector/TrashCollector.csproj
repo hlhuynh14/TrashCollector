@@ -179,6 +179,10 @@
     <Compile Include="Migrations\201906061908278_addtable.Designer.cs">
       <DependentUpon>201906061908278_addtable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906071401186_addwhopickeitupInCustomer.cs" />
+    <Compile Include="Migrations\201906071401186_addwhopickeitupInCustomer.Designer.cs">
+      <DependentUpon>201906071401186_addwhopickeitupInCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -252,6 +256,13 @@
     <Content Include="Views\Customer\ChangePickUpDate.cshtml" />
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\Monday.cshtml" />
+    <Content Include="Views\Employee\Tuesday.cshtml" />
+    <Content Include="Views\Employee\Wednesday.cshtml" />
+    <Content Include="Views\Employee\Thursday.cshtml" />
+    <Content Include="Views\Employee\Friday.cshtml" />
+    <Content Include="Views\Employee\Saturday.cshtml" />
+    <Content Include="Views\Employee\Sunday.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -272,6 +283,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201906061908278_addtable.resx">
       <DependentUpon>201906061908278_addtable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906071401186_addwhopickeitupInCustomer.resx">
+      <DependentUpon>201906071401186_addwhopickeitupInCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

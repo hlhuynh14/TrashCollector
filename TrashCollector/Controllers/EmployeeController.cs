@@ -22,6 +22,7 @@ namespace TrashCollector.Controllers
             Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
             int dayEnum = (int)System.DateTime.Now.DayOfWeek;
             string dayString = GetDay(dayEnum);
+            
             var customerList = context.Customers.Where(c => c.pickUpDay == dayString && c.zipcode == employee.zipcode).ToList();
 
             return View(customerList);
@@ -134,9 +135,13 @@ namespace TrashCollector.Controllers
                 
         }
         public ActionResult AddPayment(int id)
-        { double payment = 25;
+        {
+            string employeeId = User.Identity.GetUserId();
+            double payment = 25;
+            Employee employee = context.Employees.Where(c => c.ApplicationId == employeeId).SingleOrDefault();
             Customer customer = context.Customers.Where(c => c.id == id).SingleOrDefault();
             customer.balance += payment;
+            customer.whoPickedItUp = employee.firstName;
             context.SaveChanges();
             return RedirectToAction("Index");
         }

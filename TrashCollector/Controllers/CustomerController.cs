@@ -161,9 +161,13 @@ namespace TrashCollector.Controllers
             try
             {
                 // TODO: Add update logic here
-                Customer customer = context.Customers.Where(c => c.id == id).Single();
-                customer.oneTimePickUp = oldCustomer.oneTimePickUp;
-                context.SaveChanges();
+                if (oldCustomer.oneTimePickUp != null)
+                {
+                    Customer customer = context.Customers.Where(c => c.id == id).Single();
+                    customer.oneTimePickUp = oldCustomer.oneTimePickUp;
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
                 return RedirectToAction("Index");
             }
             catch

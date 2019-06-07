@@ -105,3 +105,4 @@ C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\ob
 C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.pdb
 C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.Migrations.addtable.resources
 C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.csproj.GenerateResource.cache
+C:\Users\hlhuynh14\Desktop\devCodeCamp Projects\TrashCollector\TrashCollector\obj\Debug\TrashCollector.Migrations.addwhopickeitupInCustomer.resources
