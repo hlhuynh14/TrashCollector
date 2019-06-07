@@ -18,11 +18,11 @@ namespace TrashCollector.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            string employeeId = User.Identity.GetUserId();
-            int zipCode = context.Employees.Where(k => k.id == int.Parse(employeeId)).Select(b => b.zipcode).Single();
+            string userId = User.Identity.GetUserId();
+            Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
             int dayEnum = (int)System.DateTime.Now.DayOfWeek;
             string dayString = GetDay(dayEnum);
-            var customerList = context.Customers.Where(c => c.pickUpDay == dayString).Where(c => c.zipcode == zipCode);
+            var customerList = context.Customers.Where(c => c.pickUpDay == dayString && c.zipcode == employee.zipcode).ToList();
 
             return View(customerList);
         }
@@ -36,17 +36,21 @@ namespace TrashCollector.Controllers
         // GET: Employee/Create
         public ActionResult Create()
         {
-            return View();
+            Employee employee = new Employee();
+            return View(employee);
         }
 
         // POST: Employee/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Employee employee)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                string employeeFK = User.Identity.GetUserId();
+                employee.ApplicationId = employeeFK;
+                context.Employees.Add(employee);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch

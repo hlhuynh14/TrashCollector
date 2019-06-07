@@ -143,6 +143,7 @@ namespace TrashCollector.Controllers
         {
             ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
                                             .ToList(), "Name", "Name");
+
             return View();
         }
 
@@ -168,7 +169,14 @@ namespace TrashCollector.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     //Ends Here 
-                    return RedirectToAction("Create", "Customer");
+                    if (model.UserRoles == "Customer")
+                    {
+                        return RedirectToAction("Create", "Customer");
+                    }
+                    else if ( model.UserRoles == "Employee")
+                    {
+                        return RedirectToAction("Create", "Employee");
+                    }
                 }
                 ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
                                          .ToList(), "Name", "Name");
@@ -456,7 +464,22 @@ namespace TrashCollector.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Customer");
+            bool isEmployee = User.IsInRole("Employee");
+            bool isCust = User.IsInRole("Customer");
+            if (isCust)
+            {
+                return RedirectToAction("Create", "Customer");
+            }
+            else if (isEmployee)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+            else
+            {
+                return Register();
+            }
+            
+            
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
