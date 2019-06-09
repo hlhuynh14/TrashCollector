@@ -17,7 +17,9 @@ namespace TrashCollector.Controllers
         }
         // GET: Employee
         public ActionResult Index(string dayOfWeek)
-        { 
+        {
+            var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
+            var suspendedPeriod = context.Customers.Where(c => c.suspendedStart != null && c.supspendEnd != null).ToList();
             if (dayOfWeek == null)
             {
                 string userId = User.Identity.GetUserId();
@@ -25,15 +27,20 @@ namespace TrashCollector.Controllers
                 int dayEnum = (int)System.DateTime.Now.DayOfWeek;
                 string dayString = GetDay(dayEnum);
                 var customerList = context.Customers.Where(c => c.pickUpDay == dayString && c.zipcode == employee.zipcode).ToList();
-                var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
                 foreach (Customer customer in oneTimeList)
                 {
-                    if (customer.oneTimePickUp == DateTime.Today)
+                    DateTime updatedDay = customer.oneTimePickUp.Value;
+                    int dayOfOneTime = (int)updatedDay.DayOfWeek;
+                    if (dayString != customer.pickUpDay && DateTime.Today == updatedDay)
                     {
                         customerList.Add(customer);
                     }
                 }
+                foreach (Customer customer in suspendedPeriod)
+                {
 
+                }
+                
                 return View(customerList);
             }
             else
@@ -41,22 +48,25 @@ namespace TrashCollector.Controllers
                 string userId = User.Identity.GetUserId();
                 Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
                 var customerList = context.Customers.Where(c => c.pickUpDay == dayOfWeek && c.zipcode == employee.zipcode).ToList();
-                var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
+                
                 
                 foreach (Customer customer in oneTimeList)
                 {
+
                     if (DatesAreInTheSameWeek(customer.oneTimePickUp.Value))
                     {
+                        int dayEnum = (int)System.DateTime.Now.DayOfWeek;
+                        string dayString = GetDay(dayEnum);
                         int day = (int)customer.oneTimePickUp.Value.DayOfWeek;
                         string weekday = GetDay(day);
-                        if (weekday == customer.pickUpDay)
+                        if (weekday == customer.pickUpDay && dayOfWeek != customer.pickUpDay)
                         {
                             customerList.Add(customer);
                         }
                     }
                 }
 
-                return View();
+                return View(customerList);
             }
         }
 
