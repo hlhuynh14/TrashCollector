@@ -175,9 +175,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906071837093_test.cs" />
-    <Compile Include="Migrations\201906071837093_test.Designer.cs">
-      <DependentUpon>201906071837093_test.cs</DependentUpon>
+    <Compile Include="Migrations\201906101358117_InitialCreate.cs" />
+    <Compile Include="Migrations\201906101358117_InitialCreate.Designer.cs">
+      <DependentUpon>201906101358117_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906101359567_maketables.cs" />
+    <Compile Include="Migrations\201906101359567_maketables.Designer.cs">
+      <DependentUpon>201906101359567_maketables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -270,8 +274,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906071837093_test.resx">
-      <DependentUpon>201906071837093_test.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906101358117_InitialCreate.resx">
+      <DependentUpon>201906101358117_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101359567_maketables.resx">
+      <DependentUpon>201906101359567_maketables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

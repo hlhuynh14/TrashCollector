@@ -45,45 +45,49 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.firstName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.lastName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.email)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.address)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.zipcode)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.pickUpDay)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.oneTimePickUp)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.suspendedStart)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.supspendEnd)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.whoPickedItUp)
-    </td>
-    <td>
-        @Html.ActionLink("Confirm PickUp", "AddPayment", new { id = item.id })
-    </td>
-</tr>
-}
-    @Html.TextBox("dayOfWeek")
-    
-    
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.firstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.zipcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pickUpDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.oneTimePickUp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.suspendedStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.supspendEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.whoPickedItUp)
+            </td>
+            <td>
+                @Html.ActionLink("Confirm PickUp", "AddPayment", new { id = item.id })
+            </td>
+        </tr>
+    }
+    @Html.ActionLink("Sunday", "Index", new { dayOfWeek = "Sunday" }) |
+    @Html.ActionLink("Monday", "Index", new { dayOfWeek = "Monday" }) |
+    @Html.ActionLink("Tuesday", "Index", new { dayOfWeek = "Tuesday" }) |
+    @Html.ActionLink("Wednesday", "Index", new { dayOfWeek = "Wednesday" }) |
+    @Html.ActionLink("Thursday", "Index", new { dayOfWeek = "Thursday" }) |
+    @Html.ActionLink("Friday", "Index", new { dayOfWeek = "Friday" }) |
+    @Html.ActionLink("Saturday", "Index", new { dayOfWeek = "Saturday" }) 
 </table>

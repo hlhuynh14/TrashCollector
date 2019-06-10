@@ -70,7 +70,7 @@ namespace TrashCollector.Controllers
                         string dayString = GetDay(dayEnum);
                         int day = (int)customer.oneTimePickUp.Value.DayOfWeek;
                         string weekday = GetDay(day);
-                        if (weekday == customer.pickUpDay && dayOfWeek != customer.pickUpDay)
+                        if (weekday == dayOfWeek && dayOfWeek != customer.pickUpDay)
                         {
                             customerList.Add(customer);
                         }

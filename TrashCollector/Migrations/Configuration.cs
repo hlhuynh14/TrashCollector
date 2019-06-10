@@ -10,6 +10,7 @@ namespace TrashCollector.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "TrashCollector.Models.ApplicationDbContext";
         }
 
         protected override void Seed(TrashCollector.Models.ApplicationDbContext context)
