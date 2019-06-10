@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,6 +21,8 @@ namespace TrashCollector.Controllers
         {
             var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
             var suspendedPeriod = context.Customers.Where(c => c.suspendedStart != null && c.supspendEnd != null).ToList();
+            var suspendedPeriod2 = context.Customers.Where(c => c.suspendedStart != null && c.supspendEnd != null && c.pickUpDay == dayOfWeek).ToList();
+
             if (dayOfWeek == null)
             {
                 string userId = User.Identity.GetUserId();
@@ -38,7 +41,15 @@ namespace TrashCollector.Controllers
                 }
                 foreach (Customer customer in suspendedPeriod)
                 {
-
+                    DateTime today = DateTime.Today;
+                    DateTime startDate = customer.suspendedStart.Value;
+                    DateTime endDate = customer.supspendEnd.Value;
+                    int startVsToday = DateTime.Compare(startDate, today);
+                    int endVsToday = DateTime.Compare(today, endDate);
+                    if((startVsToday == 0 || startVsToday > 0) && (endVsToday == 0 || endVsToday > 0))
+                    {
+                        customerList.Remove(customer);
+                    }
                 }
                 
                 return View(customerList);
@@ -53,7 +64,7 @@ namespace TrashCollector.Controllers
                 foreach (Customer customer in oneTimeList)
                 {
 
-                    if (DatesAreInTheSameWeek(customer.oneTimePickUp.Value))
+                    if (DatesAreInTheSameWeek(customer.oneTimePickUp.Value, DateTime.Today))
                     {
                         int dayEnum = (int)System.DateTime.Now.DayOfWeek;
                         string dayString = GetDay(dayEnum);
@@ -64,6 +75,50 @@ namespace TrashCollector.Controllers
                             customerList.Add(customer);
                         }
                     }
+                }
+                foreach (Customer customer in suspendedPeriod2)
+                {
+                    CultureInfo myCI = new CultureInfo("en-US");
+                    Calendar myCal = myCI.Calendar;
+                    CalendarWeekRule myCWR = myCI.DateTimeFormat.CalendarWeekRule;
+                    DayOfWeek myFirstDOW = myCI.DateTimeFormat.FirstDayOfWeek;
+                    DateTime today = DateTime.Today;
+                    DateTime startDate = customer.suspendedStart.Value;
+                    DateTime endDate = customer.supspendEnd.Value;
+                    int startNumber = (int)startDate.DayOfWeek;
+                    int endNumber = (int)endDate.DayOfWeek;
+                    int weekStartNumber = myCal.GetWeekOfYear(startDate, myCWR, myFirstDOW);
+                    int weekEndNumber = myCal.GetWeekOfYear(endDate, myCWR, myFirstDOW);
+                    int weekTodayNumber = myCal.GetWeekOfYear(today, myCWR, myFirstDOW);
+                    if (weekStartNumber < weekTodayNumber && weekTodayNumber < weekEndNumber)
+                    {
+                        customerList.Remove(customer);
+                    }
+                    if (DatesAreInTheSameWeek(today, startDate))
+                    {
+                        
+                        for (int i = startNumber; i < 8; i++)
+                        {
+                            string newDay = GetDay(i);
+                            if ( customer.pickUpDay == newDay)
+                            {
+                                customerList.Remove(customer);
+                            }
+                        }
+                       
+                    }
+                    if (DatesAreInTheSameWeek(today, endDate))
+                    {
+                        for (int i = endNumber; i > 0; i--)
+                        {
+                            string newDay = GetDay(i);
+                            if (customer.pickUpDay == newDay)
+                            {
+                                customerList.Remove(customer);
+                            }
+                        }
+                    }
+
                 }
 
                 return View(customerList);
@@ -188,13 +243,14 @@ namespace TrashCollector.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public bool DatesAreInTheSameWeek(DateTime date1)
-        { var currentdate = DateTime.Today;
+        public bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+        { 
             var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
-            var date2 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
-            var date4 = currentdate.Date.AddDays(-1 * (int)cal.GetDayOfWeek(currentdate));
+            var date3 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
+            var date4 = date2.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date2));
 
-            return date2 == date4;
+            return date3 == date4;
         }
+
     }
 }
