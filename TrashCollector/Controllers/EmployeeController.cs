@@ -251,6 +251,11 @@ namespace TrashCollector.Controllers
 
             return date3 == date4;
         }
+        public ActionResult Map(int id)
+        {
+            Customer customer = context.Customers.Where(c => c.id == id).Single();
+            return View(customer);
+        }
 
     }
 }

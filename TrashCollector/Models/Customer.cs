@@ -15,6 +15,10 @@ namespace TrashCollector.Models
         public string lastName { get; set; }
         public string email { get; set; }
         public string address { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
+        public float lat { get; set; }
+        public float lng { get; set; }
         public int zipcode { get; set; }
         public double? balance { get; set; }
         public string pickUpDay { get; set; }

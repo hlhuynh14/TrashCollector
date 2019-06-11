@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrashCollector.Models;
+using TrashCollector.Views.Employee;
 
 namespace TrashCollector.Controllers
 {
@@ -40,13 +41,18 @@ namespace TrashCollector.Controllers
         [HttpPost]
         public ActionResult Create(Customer customer)
         {
+            
 
             try
             {
                 // TODO: Add insert logic here
                 // assign FK
+                
+                float[] coords = GoogleGeoCoding.GetLatLong(customer);
                 string customerFK = User.Identity.GetUserId();
                 customer.ApplicationId = customerFK;
+                customer.lat = coords[0];
+                customer.lng = coords[1];
                 context.Customers.Add(customer);
                 context.SaveChanges();
                 return RedirectToAction("Index");
@@ -158,6 +164,7 @@ namespace TrashCollector.Controllers
         [HttpPost]
         public ActionResult AddOneDayPickUp(int id, Customer oldCustomer)
         {
+            
             try
             {
                 // TODO: Add update logic here
@@ -192,6 +199,8 @@ namespace TrashCollector.Controllers
                 customer.firstName = oldCustomer.firstName;
                 customer.lastName = oldCustomer.lastName;
                 customer.address = oldCustomer.address;
+                customer.city = oldCustomer.city;
+                customer.state = oldCustomer.state;
                 customer.zipcode = oldCustomer.zipcode;
                 customer.email = oldCustomer.email;
                 context.SaveChanges();

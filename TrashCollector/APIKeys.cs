@@ -5,8 +5,12 @@ using System.Web;
 
 namespace TrashCollector
 {
-    public class APIKeys
+
+
+    public static class APIKeys
     {
-        string apiKeys = "AIzaSyDPSi - RLVYbaSZYxKTJt57TvcaRLS5kogw";
+        public static string apiKeys = "AIzaSyDPSi-RLVYbaSZYxKTJt57TvcaRLS5kogw";
+
+
     }
 }

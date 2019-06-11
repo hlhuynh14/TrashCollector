@@ -58,7 +58,7 @@
                 @Html.DisplayFor(modelItem => item.email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.address)
+                @Html.ActionLink(item.address, "Map", new { id = item.id })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.zipcode)
