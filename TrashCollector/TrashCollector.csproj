@@ -259,6 +259,7 @@
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Map.cshtml" />
+    <Content Include="Views\Employee\MultiMarkerMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

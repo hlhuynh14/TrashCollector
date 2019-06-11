@@ -233,10 +233,15 @@ namespace TrashCollector.Controllers
         }
         public ActionResult AddPayment(int id)
         {
+            
             string employeeId = User.Identity.GetUserId();
             double payment = 25;
             Employee employee = context.Employees.Where(c => c.ApplicationId == employeeId).SingleOrDefault();
             Customer customer = context.Customers.Where(c => c.id == id).SingleOrDefault();
+            if(customer.balance == null)
+            {
+                customer.balance = 0;
+            }
             customer.balance += payment;
             customer.whoPickedItUp = employee.firstName;
             customer.oneTimePickUpBool = false;
@@ -255,6 +260,113 @@ namespace TrashCollector.Controllers
         {
             Customer customer = context.Customers.Where(c => c.id == id).Single();
             return View(customer);
+        }
+        public ActionResult MultiMarkerMap(string dayOfWeek)
+        {
+            var oneTimeList = context.Customers.Where(c => c.oneTimePickUpBool == true).ToList();
+            var suspendedPeriod = context.Customers.Where(c => c.suspendedStart != null && c.supspendEnd != null).ToList();
+            var suspendedPeriod2 = context.Customers.Where(c => c.suspendedStart != null && c.supspendEnd != null && c.pickUpDay == dayOfWeek).ToList();
+
+            if (dayOfWeek == null)
+            {
+                string userId = User.Identity.GetUserId();
+                Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
+                int dayEnum = (int)System.DateTime.Now.DayOfWeek;
+                string dayString = GetDay(dayEnum);
+                var customerList = context.Customers.Where(c => c.pickUpDay == dayString && c.zipcode == employee.zipcode).ToList();
+                foreach (Customer customer in oneTimeList)
+                {
+                    DateTime updatedDay = customer.oneTimePickUp.Value;
+                    int dayOfOneTime = (int)updatedDay.DayOfWeek;
+                    if (dayString != customer.pickUpDay && DateTime.Today == updatedDay)
+                    {
+                        customerList.Add(customer);
+                    }
+                }
+                foreach (Customer customer in suspendedPeriod)
+                {
+                    DateTime today = DateTime.Today;
+                    DateTime startDate = customer.suspendedStart.Value;
+                    DateTime endDate = customer.supspendEnd.Value;
+                    int startVsToday = DateTime.Compare(startDate, today);
+                    int endVsToday = DateTime.Compare(today, endDate);
+                    if ((startVsToday == 0 || startVsToday > 0) && (endVsToday == 0 || endVsToday > 0))
+                    {
+                        customerList.Remove(customer);
+                    }
+                }
+
+                return View(customerList);
+            }
+            else
+            {
+                string userId = User.Identity.GetUserId();
+                Employee employee = context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
+                var customerList = context.Customers.Where(c => c.pickUpDay == dayOfWeek && c.zipcode == employee.zipcode).ToList();
+
+
+                foreach (Customer customer in oneTimeList)
+                {
+
+                    if (DatesAreInTheSameWeek(customer.oneTimePickUp.Value, DateTime.Today))
+                    {
+                        int dayEnum = (int)System.DateTime.Now.DayOfWeek;
+                        string dayString = GetDay(dayEnum);
+                        int day = (int)customer.oneTimePickUp.Value.DayOfWeek;
+                        string weekday = GetDay(day);
+                        if (weekday == dayOfWeek && dayOfWeek != customer.pickUpDay)
+                        {
+                            customerList.Add(customer);
+                        }
+                    }
+                }
+                foreach (Customer customer in suspendedPeriod2)
+                {
+                    CultureInfo myCI = new CultureInfo("en-US");
+                    Calendar myCal = myCI.Calendar;
+                    CalendarWeekRule myCWR = myCI.DateTimeFormat.CalendarWeekRule;
+                    DayOfWeek myFirstDOW = myCI.DateTimeFormat.FirstDayOfWeek;
+                    DateTime today = DateTime.Today;
+                    DateTime startDate = customer.suspendedStart.Value;
+                    DateTime endDate = customer.supspendEnd.Value;
+                    int startNumber = (int)startDate.DayOfWeek;
+                    int endNumber = (int)endDate.DayOfWeek;
+                    int weekStartNumber = myCal.GetWeekOfYear(startDate, myCWR, myFirstDOW);
+                    int weekEndNumber = myCal.GetWeekOfYear(endDate, myCWR, myFirstDOW);
+                    int weekTodayNumber = myCal.GetWeekOfYear(today, myCWR, myFirstDOW);
+                    if (weekStartNumber < weekTodayNumber && weekTodayNumber < weekEndNumber)
+                    {
+                        customerList.Remove(customer);
+                    }
+                    if (DatesAreInTheSameWeek(today, startDate))
+                    {
+
+                        for (int i = startNumber; i < 8; i++)
+                        {
+                            string newDay = GetDay(i);
+                            if (customer.pickUpDay == newDay)
+                            {
+                                customerList.Remove(customer);
+                            }
+                        }
+
+                    }
+                    if (DatesAreInTheSameWeek(today, endDate))
+                    {
+                        for (int i = endNumber; i > 0; i--)
+                        {
+                            string newDay = GetDay(i);
+                            if (customer.pickUpDay == newDay)
+                            {
+                                customerList.Remove(customer);
+                            }
+                        }
+                    }
+
+                }
+
+                return View(customerList);
+            }
         }
 
     }
